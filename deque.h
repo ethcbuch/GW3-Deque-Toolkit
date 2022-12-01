@@ -1,6 +1,6 @@
 class deque {
  public:
-  deque();
+  /*deque();
   ~deque();
   push_front();
   push_back();
@@ -10,8 +10,15 @@ class deque {
   back();
   empty();
   size();
+  */
+  void print();
+  void Allociation(std::string fileName);
   &int operator[](unsigned int index);
 
  private:
-  int** blockmap;
+  int **blockmap;
+  int size;
+  int mapsize;
+  const static int bsize = 3;
+  
 };
