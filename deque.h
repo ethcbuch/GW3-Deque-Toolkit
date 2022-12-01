@@ -1,12 +1,17 @@
 class deque {
-
-
-
  public:
-
- private:
   deque();
   ~deque();
+  push_front();
+  push_back();
+  pop_front();
+  pop_back();
+  front();
+  back();
+  empty();
+  size();
+  &int operator[](unsigned int index);
 
-
+ private:
+  int** blockmap;
 };
