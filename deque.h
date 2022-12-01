@@ -14,4 +14,8 @@ class deque {
 
  private:
   int** blockmap;
+  int size;
+  int mapsize;
+  const static int blocksize = 3;
+  
 };
