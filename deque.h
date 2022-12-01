@@ -1,24 +1,36 @@
+#ifndef DEQUE_H
+#define DEQUE_H
+#include <iostream>
+#include <fstream>
+#include <string>
+
+
 class deque {
  public:
-  /*deque();
+  deque();
+  deque(std::string fileName, int n);
   ~deque();
-  push_front();
-  push_back();
-  pop_front();
-  pop_back();
-  front();
-  back();
-  empty();
-  size();
-  */
+  void push_front(int n);
+  void push_back(int n);
+  void pop_front();
+  void pop_back();
+  int front();
+  int back();
+  bool empty();
+  int Size();
+  void setbsize(int n);
   void print();
-  void Allociation(std::string fileName);
-  &int operator[](unsigned int index);
+  void Allocation(std::string fileName);
+  //  &int operator[](unsigned int index);
 
  private:
   int **blockmap;
   int size;
-  int mapsize;
-  const static int bsize = 3;
+  int columns;
+  int bsize;
   
 };
+
+
+
+#endif
