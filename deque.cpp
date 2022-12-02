@@ -4,10 +4,11 @@ using namespace std;
 
 deque::deque()
 {
-  blockmap = NULL;
-  size = 0;
-  bsize = 0;
+  bsize = 11;
   columns = 1;
+  blockmap = new int*[columns];
+  blockmap[0] = new int[bsize]();
+  size = 0;
   rearX = 0;
   rearY = 0;
   frontX = 0;
@@ -149,10 +150,10 @@ void deque::push_back(int n)
   int r = size%bsize;
   if(r > 0)
     {
-      blockmap[rearY][rearX + 1] = n;
+      blockmap[rearY-1][rearX+1] = n;
       rearX = rearX + 1;
     }
-  if(r == 0)
+  if (r == 0)
     {
       int **temp;
       columns++;
@@ -164,12 +165,12 @@ void deque::push_back(int n)
       blockmap = temp;
       temp = new int*[columns];
       delete[] temp;
-      blockmap[columns - 1] = new int[bsize];
-      blockmap[columns - 1][0] = n;
-      for(int i = 1; i < bsize - 1; i++)
-	{
-	  blockmap[columns - 1][i] = 0;
-	}
+      blockmap[columns - 1] = new int[bsize]();
+      blockmap[columns - 2][0] = n;
+      //for(int i = 1; i < bsize - 1; i++)
+      //{
+      //blockmap[columns - 1][i] = 0;
+      //}
       rearY = rearY + 1;
       rearX = 0;
     }
@@ -184,8 +185,8 @@ void deque::setbsize(int n)
 
 void deque::print()
 {
-  int n = 0;
-  for(int i = 0; i < bsize; i++)
+  //int n = 0;
+  /*for(int i = 0; i < bsize; i++)
     {
       if(i < frontX)
 	{
@@ -196,22 +197,23 @@ void deque::print()
 	  cout << "|" << setw(5) << blockmap[0][i] << " |";
 	  n++;
 	}
-    }
+	}*/
   cout << endl;
-  for(int i = 1; i < columns; i++)
+  for(int i = 0; i < columns; i++)
     {
+      cout << "Column: " << i;
       for(int v = 0; v < bsize; v++)
 	{
-	  if(n < size)
-	    {
-	      cout << "|" << setw(5) << blockmap[i][v] << " |";
-	      n++;
+	  //if(n < size)
+	  //{
+	  cout << "|" << setw(5) << blockmap[i][v] << " |";
+	      //n++;
+	      //}
+	      //else
+	      //{
+	      //cout << "|" << setw(7) << " |";
+	      //}
 	    }
-	  else
-	    {
-	      cout << "|" << setw(7) << " |";
-	    }
-	}
       cout << endl;
     }
 }
