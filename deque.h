@@ -10,6 +10,7 @@ class deque {
   deque();
   deque(std::string fileName, int n);
   ~deque();
+  void coords();
   void push_front(int n);
   void push_back(int n);
   void pop_front();
@@ -28,6 +29,10 @@ class deque {
   int size;
   int columns;
   int bsize;
+  int rearX = 0;
+  int rearY = 0;
+  int frontX = 0;
+  int frontY = 0;
   
 };
 
