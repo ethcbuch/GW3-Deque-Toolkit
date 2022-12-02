@@ -8,20 +8,19 @@
 class deque {
  public:
   deque();
-  deque(std::string fileName, int n);
+  deque(int n);
   ~deque();
   int front();
   int back();
-  void coords();
   bool empty();
   int Size();
-  void setbsize(int n);
   void push_front(int n);
   void push_back(int n);
   void pop_front();
   void pop_back();
   void print();
-  void Allocation(std::string fileName);
+  void allocate();
+  void push_from_file();
   //  &int operator[](unsigned int index);
 
  private:
