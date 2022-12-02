@@ -36,7 +36,7 @@ int main()
   for(int i = 0; i < 40; i++)
   {
     test2.push_back(i);
-    test2.push_front(-i);
+    //test2.push_front(-i);
   }
   cout << endl;
   cout << test2.front() << endl;
