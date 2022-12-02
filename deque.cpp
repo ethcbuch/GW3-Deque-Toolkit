@@ -151,34 +151,39 @@ void deque::push_back(int n)
   if(empty())
     {
       blockmap = new int*[columns];
+      blockmap[0] = new int[bsize];
+      blockmap[rearY][rearX] = n;
       columns--;
     }
-  int r = (size - (bsize - frontX))%bsize;
-  if(r > 0)
+  else
     {
-      blockmap[rearY][(rearX + 1)] = n;
-      rearX = rearX + 1;
-    }
-  if(r == 0)
-    {
-      int **temp;
-      columns++;
-      temp = new int*[columns];
-      for(int f = 0; f < (columns - 1); f++)
+      int r = (size - (bsize - frontX))%bsize;
+      if(r > 0)
 	{
-	  temp[f] = blockmap[f];
+	  blockmap[rearY][(rearX + 1)] = n;
+	  rearX = rearX + 1;
 	}
-      blockmap = temp;
-      temp = new int*[columns];
-      delete[] temp;
-      blockmap[columns - 1] = new int[bsize];
-      blockmap[columns - 1][0] = n;
-      for(int i = 1; i < bsize - 1; i++)
+      if(r == 0)
 	{
-	  blockmap[columns - 1][i] = 0;
+	  int **temp;
+	  columns++;
+	  temp = new int*[columns];
+	  for(int f = 0; f < (columns - 1); f++)
+	    {
+	      temp[f] = blockmap[f];
+	    }
+	  blockmap = temp;
+	  temp = new int*[columns];
+	  delete[] temp;
+	  blockmap[columns - 1] = new int[bsize];
+	  blockmap[columns - 1][0] = n;
+	  for(int i = 1; i < bsize - 1; i++)
+	    {
+	      blockmap[columns - 1][i] = 0;
+	    }
+	  rearY = rearY + 1;
+	  rearX = 0;
 	}
-      rearY = rearY + 1;
-      rearX = 0;
     }
   size++;
 }
