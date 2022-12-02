@@ -40,7 +40,7 @@ int deque::front()
 
 int deque::back()
 {
-  return blockmap[rearY][rearX];
+  return blockmap[rearY][rearX-1];
 }
 
 void deque::coords()
@@ -105,7 +105,7 @@ void deque::push_front(int n)
    if(empty())
     {
       blockmap = new int*[columns];
-      blockmap[0] = new int[bsize];
+      blockmap[0] = new int[bsize]();
       blockmap[frontX][frontY] = n;
     }
    else
@@ -127,11 +127,11 @@ void deque::push_front(int n)
 	   blockmap = temp;
 	   temp = new int*[columns];
 	   delete[] temp;
-	   blockmap[0] = new int[bsize];
-	   for(int i = 0; i < bsize; i++)
-	     {
-	       blockmap[0][i] = 0;
-	     }
+	   blockmap[0] = new int[bsize]();
+	   //for(int i = 0; i < bsize; i++)
+	   //{
+	   //  blockmap[0][i] = 0;
+	   //}
 	   blockmap[0][bsize - 1] = n;
 	   frontX = bsize - 1;
 	   rearY = rearY + 1;
@@ -145,39 +145,38 @@ void deque::push_back(int n)
   if(empty())
     {
       blockmap = new int*[columns];
-      columns--;
+      blockmap[columns] = new int[bsize];
     }
-  int r = size%bsize;
-  if(r > 0)
-    {
-      blockmap[rearY-1][rearX+1] = n;
-      rearX = rearX + 1;
-    }
-  if (r == 0)
-    {
-      int **temp;
-      columns++;
-      temp = new int*[columns];
-      for(int f = 0; f < (columns - 1); f++)
-	{
-	  temp[f] = blockmap[f];
-	}
-      blockmap = temp;
-      temp = new int*[columns];
-      delete[] temp;
-      blockmap[columns - 1] = new int[bsize]();
-      blockmap[columns - 2][0] = n;
-      //for(int i = 1; i < bsize - 1; i++)
-      //{
-      //blockmap[columns - 1][i] = 0;
-      //}
-      rearY = rearY + 1;
-      rearX = 0;
-    }
+  else {
+    if(size < (bsize*columns))
+         {
+           blockmap[rearY][rearX] = n;
+           rearX = rearX + 1;
+         }
+       else
+         {
+           int **temp;
+           columns++;
+           temp = new int*[columns];
+           for(int i = 0; i < columns - 1; i++)
+             {
+               temp[i] = blockmap[i];
+             }
+           blockmap = temp;
+           temp = new int*[columns];
+           delete[] temp;
+           blockmap[columns-1] = new int[bsize]();
+           //for(int i = 0; i < bsize; i++)
+           //{
+           //  blockmap[0][i] = 0;
+           //}
+           blockmap[columns-1][0] = n;
+           rearY = rearY + 1;
+	   rearX = 0;
+         }
+     }
   size++;
 }
-
-
 void deque::setbsize(int n)
 {
   bsize = n;

@@ -19,7 +19,7 @@ int main()
   cout << "empty: " << test.empty() << endl;
   cout << "size: " << test.Size() << endl;
   test.print();
-  for(int i = 0; i < 10000; i++)
+  for(int i = 0; i < 100; i++)
     {
       test.push_back(102 - i);
       test.push_front(102 + i);
