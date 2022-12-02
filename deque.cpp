@@ -7,22 +7,25 @@ using namespace std;
 deque::deque()
 {
   blockmap = NULL;
-  size = 0;
-  bsize = 0;
+  bsize = 11;
   columns = 1;
+  size = 0;
   rearX = 0;
   rearY = 0;
   frontX = 0;
   frontY = 0;
 }
 
-deque::deque(string fileName, int n)
+deque::deque(int n)
 {
+  blockmap = NULL;
   bsize = n;
   columns = 1;
   size = 0;
-  Allocation(fileName);
-  coords();
+  rearX = 0;
+  rearY = 0;
+  frontX = 0;
+  frontY = 0;
 }
 
 deque::~deque()
@@ -101,93 +104,78 @@ int deque::Size()
   return size;
 }
 
+void deque::push_front(int n)
+{
+  if (empty()) {
+    allocate();
+    blockmap[0][0] = n;
+  }
+  else if(frontX != 0)
+    {
+      blockmap[frontY][frontX - 1] = n;
+      frontX = frontX - 1;
+    }
+  else
+    {
+      int **temp;
+      columns++;
+      temp = new int*[columns];
+      for(int i = 1; i <= columns - 1; i++)
+	{
+	  temp[i] = blockmap[i - 1];
+	}
+      blockmap = temp;
+      temp = new int*[columns];
+      delete[] temp;
+      blockmap[0] = new int[bsize]();
+      //for(int i = 0; i < bsize; i++)
+      //{
+      //  blockmap[0][i] = 0;
+      //}
+      blockmap[0][bsize - 1] = n;
+      frontX = bsize - 1;
+      rearY = rearY + 1;
+    }
+size++;
+}
+
+void deque::push_back(int n) {
+  if (empty()) {
+    allocate();
+    blockmap[0][0] = n;
+  }
+  else if(size < (columns*bsize))
+         {
+           blockmap[rearY][rearX+1] = n;
+           rearX++;
+         }
+  else
+    {
+      int **temp;
+      columns++;
+      temp = new int*[columns];
+      for(int i = 0; i < columns - 1; i++)
+	{
+	  temp[i] = blockmap[i];
+	}
+      blockmap = temp;
+      temp = new int*[columns];
+      delete[] temp;
+      blockmap[columns-1] = new int[bsize]();
+      //for(int i = 0; i < bsize; i++)
+           //{
+           //  blockmap[0][i] = 0;
+           //}
+      blockmap[columns-1][0] = n;
+      rearY = rearY + 1;
+      rearX = 0;
+    }
+  size++;
+}
 void deque::setbsize(int n)
 {
   bsize = n;
 }
-
-void deque::push_front(int n)
-{
-   if(empty())
-    {
-      blockmap = new int*[columns];
-      blockmap[0] = new int[bsize];
-      blockmap[frontX][frontY] = n;
-    }
-   else
-     {
-       if(frontX != 0)
-	 {
-	   blockmap[frontY][frontX - 1] = n;
-	   frontX = frontX - 1;
-	 }
-       else
-	 {
-	   int **temp;
-	   columns++;
-	   temp = new int*[columns];
-	   for(int i = 1; i <= columns - 1; i++)
-	     {
-	       temp[i] = blockmap[i - 1];
-	     }
-	   blockmap = temp;
-	   temp = new int*[columns];
-	   delete[] temp;
-	   blockmap[0] = new int[bsize];
-	   for(int i = 0; i < bsize; i++)
-	     {
-	       blockmap[0][i] = 0;
-	     }
-	   blockmap[0][bsize - 1] = n;
-	   frontX = bsize - 1;
-	   rearY = rearY + 1;
-	 }
-     }
-   size++;
-}
-
-void deque::push_back(int n)
-{
-  if(empty())
-    {
-      blockmap = new int*[columns];
-      blockmap[0] = new int[bsize];
-      blockmap[rearY][rearX] = n;
-      columns--;
-    }
-  else
-    {
-      int r = (size - (bsize - frontX))%bsize;
-      if(r > 0)
-	{
-	  blockmap[rearY][(rearX + 1)] = n;
-	  rearX = rearX + 1;
-	}
-      if(r == 0)
-	{
-	  int **temp;
-	  columns++;
-	  temp = new int*[columns];
-	  for(int f = 0; f < (columns - 1); f++)
-	    {
-	      temp[f] = blockmap[f];
-	    }
-	  blockmap = temp;
-	  temp = new int*[columns];
-	  delete[] temp;
-	  blockmap[columns - 1] = new int[bsize];
-	  blockmap[columns - 1][0] = n;
-	  for(int i = 1; i < bsize - 1; i++)
-	    {
-	      blockmap[columns - 1][i] = 0;
-	    }
-	  rearY = rearY + 1;
-	  rearX = 0;
-	}
-    }
-  size++;
-}
-
 void deque::pop_front()
 {
   if(frontX != (bsize - 1))
@@ -281,6 +269,10 @@ void deque::print()
     }
   cout << ununderline << endl;
 }
+void deque::allocate() {
+  blockmap = new int*[columns];
+  blockmap[0] = new int[bsize]();
+}
 
 void deque::Allocation(string fileName)
 {
@@ -327,4 +319,21 @@ void deque::Allocation(string fileName)
   inputFile.close();
 }
 
+
+void deque::push_from_file(string fileName) {
+  ifstream inputFile;
+  int value;
+  inputFile.open(fileName);
+
+  inputFile >> value;
+  
+  while (inputFile) {
+    push_back(value);
+    push_front(value);
+    
+    inputFile >> value;
+  }
+
+  inputFile.close();
+}
 
