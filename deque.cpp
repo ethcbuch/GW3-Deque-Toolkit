@@ -328,8 +328,8 @@ void deque::push_from_file(string fileName) {
   inputFile >> value;
   
   while (inputFile) {
-    push_front(value);
     push_back(value);
+    push_front(value);
     
     inputFile >> value;
   }
