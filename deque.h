@@ -8,7 +8,7 @@
 class deque {
  public:
   deque();
-  deque(std::string fileName, int n);
+  deque(int n);
   ~deque();
   void coords();
   void push_front(int n);
@@ -21,6 +21,7 @@ class deque {
   int Size();
   void setbsize(int n);
   void print();
+  void push_from_file(std::string fileName);
   void Allocation(std::string fileName);
   //  &int operator[](unsigned int index);
 
@@ -29,10 +30,11 @@ class deque {
   int size;
   int columns;
   int bsize;
-  int rearX = 0;
-  int rearY = 0;
-  int frontX = 0;
-  int frontY = 0;
+  int rearX;
+  int rearY;
+  int frontX;
+  int frontY;
+  void allocate();
   
 };
 

@@ -13,22 +13,23 @@ int main()
     }
   outputFile.close();
   */
-  deque test(file, 19);
+  deque test(19);
+  test.push_from_file(file);
   cout << "front: " << test.front() << endl;
   cout << "back: " << test.back() << endl;
   cout << "empty: " << test.empty() << endl;
   cout << "size: " << test.Size() << endl;
   test.print();
-  for(int i = 0; i < 100; i++)
-    {
-      test.push_back(102 - i);
-      test.push_front(102 + i);
-      cout << "front: " << test.front() << endl;
-      cout << "back: " << test.back() << endl;
-      cout << "empty: " << test.empty() << endl;
-      cout << "size: " << test.Size() << endl;
+  //for(int i = 0; i < 100; i++)
+  //{
+  //  test.push_back(102 - i);
+  //  test.push_front(102 + i);
+  //  cout << "front: " << test.front() << endl;
+  //  cout << "back: " << test.back() << endl;
+  //  cout << "empty: " << test.empty() << endl;
+  //  cout << "size: " << test.Size() << endl;
       //test.print();
-    }
+  //}
   test.print();
   deque test2;
   //test2.setbsize(3);
@@ -36,7 +37,11 @@ int main()
   for(int i = 0; i < 40; i++)
   {
     test2.push_back(i);
-    //test2.push_front(-i);
+    test2.push_front(-i);
+  }
+  for (int i = 0; i < 10; i++) {
+    test2.pop_front();
+    test2.pop_back();
   }
   cout << endl;
   cout << test2.front() << endl;
