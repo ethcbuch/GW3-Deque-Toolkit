@@ -13,23 +13,37 @@ int main()
     }
   outputFile.close();
   */
-  deque test(file, 19);
-  cout << "front: " << test.front() << endl;
-  cout << "back: " << test.back() << endl;
-  cout << "empty: " << test.empty() << endl;
-  cout << "size: " << test.Size() << endl;
+  deque test(file, 8);
+  /*  cout << "(Front, Back, Empty, Size)" << endl;
+  cout << "(" << test.front() << ", " << test.back() << ", " << test.empty() << ", " << test.Size() << ")"  << endl;
   test.print();
-  for(int i = 0; i < 6; i++)
+  
+  test.push_back(5);
+  cout << "(Front, Back, Empty, Size)" << endl;
+  cout << "(" << test.front() << ", " << test.back() << ", " << test.empty() << ", " << test.Size() << ")"  << endl;
+  test.print();
+
+  test.pop_back();
+  cout << "(Front, Back, Empty, Size)" << endl;
+  cout << "(" << test.front() << ", " << test.back() << ", " << test.empty() << ", " << test.Size() << ")"  << endl;
+  test.print();
+  */
+
+
+  
+  for(int i = 0; i < 20; i++)
     {
-      test.push_back(102 - i);
-      test.push_front(102 + i);
-      cout << "front: " << test.front() << endl;
-      cout << "back: " << test.back() << endl;
-      cout << "empty: " << test.empty() << endl;
-      cout << "size: " << test.Size() << endl;
+      test.push_back(102 + i);
+      test.push_front(0 - i);
+      cout << "(Front, Back, Empty, Size)" << endl;
+      cout << "(" << test.front() << ", " << test.back() << ", " << test.empty() << ", " << test.Size() << ")"  << endl;
       test.print();
     }
   deque test2;
+  cout << "(Front, Back, Empty, Size)" << endl;
+  cout << "(" << test2.front() << ", " << test2.back() << ", " << test2.empty() << ", " << test2.Size() << ")"  << endl;
+  test2.print();
+  
   test2.setbsize(3);
   test2.coords();
   for(int i = 0; i < 10; i++)

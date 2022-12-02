@@ -10,16 +10,16 @@ class deque {
   deque();
   deque(std::string fileName, int n);
   ~deque();
+  int front();
+  int back();
   void coords();
+  bool empty();
+  int Size();
+  void setbsize(int n);
   void push_front(int n);
   void push_back(int n);
   void pop_front();
   void pop_back();
-  int front();
-  int back();
-  bool empty();
-  int Size();
-  void setbsize(int n);
   void print();
   void Allocation(std::string fileName);
   //  &int operator[](unsigned int index);
@@ -29,10 +29,10 @@ class deque {
   int size;
   int columns;
   int bsize;
-  int rearX = 0;
-  int rearY = 0;
-  int frontX = 0;
-  int frontY = 0;
+  int rearX;
+  int rearY;
+  int frontX;
+  int frontY;
   
 };
 
