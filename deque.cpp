@@ -30,11 +30,18 @@ deque::deque(int n)
 
 deque::~deque()
 {
-  for(int i = 0; i < columns; i++)
+  if(empty())
     {
-      delete[] blockmap[i];
+      return;
     }
-  delete[] blockmap;
+  else
+    { 
+      for(int i = 0; i < columns; i++)
+	{
+	  delete[] blockmap[i];
+	}
+      delete[] blockmap;
+    }
 }
 
 int deque::front()
@@ -66,10 +73,11 @@ int deque::Size()
 
 void deque::push_front(int n)
 {
-  if (empty()) {
-    allocate();
-    blockmap[0][0] = n;
-  }
+  if (empty())
+    {
+      allocate();
+      blockmap[0][0] = n;
+    }
   else if(frontX != 0)
     {
       blockmap[frontY][frontX - 1] = n;
@@ -95,16 +103,18 @@ void deque::push_front(int n)
 size++;
 }
 
-void deque::push_back(int n) {
-  if (empty()) {
-    allocate();
-    blockmap[0][0] = n;
-  }
-  else if(size < (columns*bsize))
-         {
-           blockmap[rearY][rearX+1] = n;
-           rearX++;
-         }
+void deque::push_back(int n)
+{
+  if (empty())
+    {
+      allocate();
+      blockmap[0][0] = n;
+    }
+  else if(size < (columns * bsize))
+    {
+      blockmap[rearY][rearX + 1] = n;
+      rearX++;
+    }
   else
     {
       int **temp;
@@ -117,8 +127,8 @@ void deque::push_back(int n) {
       blockmap = temp;
       temp = new int*[columns];
       delete[] temp;
-      blockmap[columns-1] = new int[bsize]();
-      blockmap[columns-1][0] = n;
+      blockmap[columns - 1] = new int[bsize]();
+      blockmap[columns - 1][0] = n;
       rearY = rearY + 1;
       rearX = 0;
     }
@@ -127,58 +137,89 @@ void deque::push_back(int n) {
 
 void deque::pop_front()
 {
-  if(frontX != (bsize - 1))
+  if(empty())
     {
-      blockmap[0][frontX] = 0;
-      frontX = frontX + 1;
+      cout << "Empty, no front" << endl;
+      return;
     }
   else
     {
-      int **temp;
-      columns--;
-      temp = new int*[columns];
-      delete blockmap[0];
-      for(int i = 0; i < columns; i++)
+      if(frontX != (bsize - 1))
 	{
-	  temp[i] = blockmap[i+1];
+	  blockmap[0][frontX] = 0;
+	  frontX = frontX + 1;
 	}
-      blockmap = temp;
-      temp = new int*[columns];
-      delete[] temp;
-      frontX = 0;
-      rearY = rearY - 1;
+      else
+	{
+	  int **temp;
+	  columns--;
+	  temp = new int*[columns];
+	  delete blockmap[0];
+	  for(int i = 0; i < columns; i++)
+	    {
+	      temp[i] = blockmap[i+1];
+	    }
+	  blockmap = temp;
+	  temp = new int*[columns];
+	  delete[] temp;
+	  frontX = 0;
+	  rearY = rearY - 1;
+	}
+      size--;
     }
-  size--;
 }
+  
 
 void deque::pop_back()
 {
-  if(rearX != 0)
+  if(empty())
     {
-      blockmap[columns - 1][rearX] = 0;
-      rearX = rearX - 1;
+      cout << "Empty, no back" << endl;
+      return;
     }
   else
     {
-      int **temp;
-      columns--;
-      temp = new int*[columns];
-      delete blockmap[columns];
-      for(int i = 0; i < columns; i++)
+      if(rearX != 0)
 	{
-	  temp[i] = blockmap[i];
+	  blockmap[columns - 1][rearX] = 0;
+	  rearX = rearX - 1;
 	}
-      blockmap = temp;
-      temp = new int*[columns];
-      delete[] temp;
-      rearX = (bsize - 1);
-      rearY = rearY - 1;
+      else
+	{
+	  int **temp;
+	  columns--;
+	  temp = new int*[columns];
+	  delete blockmap[columns];
+	  for(int i = 0; i < columns; i++)
+	    {
+	      temp[i] = blockmap[i];
+	    }
+	  blockmap = temp;
+	  temp = new int*[columns];
+	  delete[] temp;
+	  rearX = (bsize - 1);
+	  rearY = rearY - 1;
+	}
+      size--;
     }
-  size--;
 }
 
 void deque::print()
 {
+  int max = 0;
+  for(int i = 0; i < columns - 1; i++)
+    {
+      for (int v = 0; v < bsize; v++)
+	{
+	  if(max < blockmap[i][v])
+	    {
+	      max = blockmap[i][v];
+	    }
+	}
+    }
+  int gap;
+  string str = to_string(max);
+  gap = str.size() + 2;
   int n = 0;
   cout << underline;
   cout << "The Physical Interpretation of this Deque:";
@@ -191,16 +232,16 @@ void deque::print()
     {
       if(i < frontX)
 	{
-	  cout << "|" << setw(5) << " ";
+	  cout << "|" << setw(gap) << " ";
 	}
       else if(i >= frontX && i < size)
 	{
-	  cout << "|" << setw(4) << blockmap[0][i] << " ";
+	  cout << "|" << setw(gap - 1) << blockmap[0][i] << " ";
 	  n++;
 	}
       else if(i >= size)
 	{
-	  cout << "|" << setw(5) << " ";
+	  cout << "|" << setw(gap) << " ";
 	}
     }
   cout << "|" << endl;
@@ -210,12 +251,12 @@ void deque::print()
 	{
 	  if(n < size)
 	    {
-	      cout << "|" << setw(4) << blockmap[i][v] << " ";
+	      cout << "|" << setw(gap - 1) << blockmap[i][v] << " ";
 	      n++;
 	    }
 	  else
 	    {
-	      cout << "|" << setw(5) << " ";
+	      cout << "|" << setw(gap) << " ";
 	    }
 	}
       cout << "|" << endl;
@@ -239,9 +280,7 @@ void deque::push_from_file(string fileName)
   
   while (inputFile)
     {
-      push_back(value);
-      push_front(value);
-      
+      push_back(value);      
       inputFile >> value;
     }
 
@@ -251,10 +290,20 @@ void deque::push_from_file(string fileName)
 
 int deque::operator[](unsigned int index)
 {
+  if(empty())
+    {
+      cout << "Is empty no index's available, heres a zero: ";
+      return 0;
+    }
+  if(index >= (unsigned) size)
+    {
+      cout << "Out of Range, heres a zero: ";
+      return 0;
+    }
   int X;
   int Y = 0;
   int temp;
-  temp = (index + 1) - bsize;
+  temp = (index + 1 + frontX) - bsize;
   while(temp > 0)
     {
       if(Y == 0)
@@ -267,7 +316,9 @@ int deque::operator[](unsigned int index)
 	  Y++;
 	}
     }
- 
+  temp = temp + bsize;
+  X = temp - 1;
+  return blockmap[Y][X];
 }
 
 
