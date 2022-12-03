@@ -153,6 +153,7 @@ void deque::push_back(int n)
 
 void deque::pop_front()
 {
+  //If empty nothing to pop from front. return
   if(empty())
     {
       cout << "Empty, no front" << endl;
@@ -175,6 +176,7 @@ void deque::pop_front()
 	}
       else
 	{
+	  //If left with empty array block delete it
 	  int **temp;
 	  columns--;
 	  temp = new int*[columns];
@@ -196,6 +198,7 @@ void deque::pop_front()
 
 void deque::pop_back()
 {
+  //If empty nothing to pop from back
   if(empty())
     {
       cout << "Empty, no back" << endl;
@@ -210,6 +213,7 @@ void deque::pop_back()
 	}
       else
 	{
+	  //If left with empty deque at start delete everything and set blockmap to NULL
 	  if(frontX == 0 && columns == 1)
 	    {
 	      size--;
@@ -218,6 +222,7 @@ void deque::pop_back()
 	      blockmap = NULL;
 	      return;
 	    }
+	  //If left with empty array block delete it
 	  int **temp;
 	  columns--;
 	  temp = new int*[columns];
@@ -238,6 +243,7 @@ void deque::pop_back()
 
 void deque::print()
 {
+  //If empty nothing to print
   if (empty())
     {
       cout << "Deque is empty. Nothing to print!" << endl;
@@ -254,9 +260,11 @@ void deque::print()
 	    }
 	}
     }
+  //Find a nice setW for chart
   int gap;
   string str = to_string(max);
   gap = str.size() + 2;
+  
   int n = 0;
   cout << underline;
   cout << "The Physical Interpretation of this Deque:";
@@ -327,11 +335,13 @@ void deque::push_from_file(string fileName)
 
 int deque::operator[](unsigned int index)
 {
+  //If empty no index to search
   if(empty())
     {
       cout << "Is empty no index's available, heres a zero: ";
       return 0;
     }
+  //If too big, cant search for it
   if(index >= (unsigned) size)
     {
       cout << "Out of Range, heres a zero: ";
@@ -357,5 +367,3 @@ int deque::operator[](unsigned int index)
   X = temp - 1;
   return blockmap[Y][X];
 }
-
-
