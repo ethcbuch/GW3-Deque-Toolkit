@@ -4,15 +4,74 @@ using namespace std;
 
 int main()
 {
+
+
+  //Test 1 Default Constructor and its Modifcations
+
+
+  //Default Constructor when empty, what happens?
+  deque Test_1;
+  cout << Test_1[3] << endl;
+  Test_1.pop_back();
+  Test_1.pop_front();
+  //Pushing to front or back when empty?
+  Test_1.push_front(1);
+  Test_1.print();
+  Test_1.pop_front();
+  Test_1.print();
+  Test_1.push_back(1);
+  Test_1.print();
+  Test_1.pop_back();
+  Test_1.print();  
+
+
+
+
+
+
   
-  /* ofstream outputFile;
-  outputFile.open("inputfile.txt");
-  for(int i = 1; i <= 10000; i++)
-    {
-      outputFile << i << endl;
-    }
-  outputFile.close();*/
-  string file = "inputfile.txt";
+
+
+
+
+  //Test 2 Using a parameterized Constructor and reading from a file
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /*
   deque test(10);
   test.push_from_file(file);
   
@@ -24,10 +83,6 @@ int main()
       cout << test[i] << endl;
     }
   */
-  deque test4;
-  cout << test4[3] << endl;
-  test4.pop_back();
-  test4.pop_front();
   /*  test.push_back(5);
   cout << "(Front, Back, Empty, Size)" << endl;
   cout << "(" << test.front() << ", " << test.back() << ", " << test.empty() << ", " << test.Size() << ")"  << endl;
