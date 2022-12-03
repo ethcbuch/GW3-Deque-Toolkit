@@ -162,16 +162,19 @@ void deque::pop_front()
     {
       if(frontX != (bsize - 1))
 	{
+	  if(frontX == 0 && columns == 1)
+	    {
+	      size--;
+	      delete[] blockmap[0];
+	      delete[] blockmap;
+	      blockmap = NULL;
+	      return;
+	    }
 	  blockmap[0][frontX] = 0;
 	  frontX = frontX + 1;
 	}
       else
 	{
-	  if(frontX == 0 && columns == 1)
-	    {
-	      blockmap = NULL;
-	      return;
-	    }
 	  int **temp;
 	  columns--;
 	  temp = new int*[columns];
@@ -209,6 +212,9 @@ void deque::pop_back()
 	{
 	  if(frontX == 0 && columns == 1)
 	    {
+	      size--;
+	      delete[] blockmap[0];
+	      delete[] blockmap;
 	      blockmap = NULL;
 	      return;
 	    }
@@ -254,7 +260,7 @@ void deque::print()
   int n = 0;
   cout << underline;
   cout << "The Physical Interpretation of this Deque:";
-  for(int i = 0; i < (bsize * 6) - 41; i++)
+  for(int i = 0; i < (bsize * (gap + 1)) - 41; i++)
     {
       cout << " ";
     }
