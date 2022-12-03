@@ -180,7 +180,7 @@ void deque::pop_front()
 	  int **temp;
 	  columns--;
 	  temp = new int*[columns];
-	  delete blockmap[0];
+	  delete[] blockmap[0];
 	  for(int i = 0; i < columns; i++)
 	    {
 	      temp[i] = blockmap[i+1];
@@ -226,7 +226,7 @@ void deque::pop_back()
 	  int **temp;
 	  columns--;
 	  temp = new int*[columns];
-	  delete blockmap[columns];
+	  delete[] blockmap[columns];
 	  for(int i = 0; i < columns; i++)
 	    {
 	      temp[i] = blockmap[i];
@@ -294,7 +294,12 @@ void deque::print()
     {
       for(int v = 0; v < bsize; v++)
 	{
-	  if(n < size)
+	  if(v > rearX && i == (columns - 1))
+	    {
+	      cout << "|" << setw(gap) << " ";
+	      n++;
+	    }
+	  else if(n < size)
 	    {
 	      cout << "|" << setw(gap - 1) << blockmap[i][v] << " ";
 	      n++;
