@@ -125,7 +125,7 @@ void deque::push_back(int n)
       blockmap[0][0] = n;
     }
   //If size is less than capacity(bsize*columns) put at back of array
-  else if(size < (columns * bsize))
+  else if(rearX != (bsize - 1))
     {
       blockmap[rearY][rearX + 1] = n;
       rearX++;
