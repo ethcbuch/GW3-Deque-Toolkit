@@ -46,46 +46,6 @@ int deque::back()
 {
   return blockmap[rearY][rearX];
 }
-
-void deque::coords()
-{
-  //Front Coords
-  int s;
-  int i2;
-  int h = size%bsize;
-  if(h > 0)
-    {
-      i2 = columns - 2;
-      s = size - h;
-    }
-  else
-    {
-      i2 = columns - 1;
-      s = size;
-    }
-  int c;
-  int b;
-  for(int i = i2; i >= 0; i--)
-    {
-      for(int v = bsize - 1; v >= 0; v--)
-	{
-	  if(s == 1)
-	    {
-	      c = i;
-	      b = v;
-	      s--;
-	    }
-	  else
-	    {
-	      s--;
-	    }
-	}
-    }
-  rearX = h - 1;
-  rearY = columns - 1;
-  frontX = b;
-  frontY = c; 
-}
   
 bool deque::empty()
 {
@@ -128,10 +88,6 @@ void deque::push_front(int n)
       temp = new int*[columns];
       delete[] temp;
       blockmap[0] = new int[bsize]();
-      //for(int i = 0; i < bsize; i++)
-      //{
-      //  blockmap[0][i] = 0;
-      //}
       blockmap[0][bsize - 1] = n;
       frontX = bsize - 1;
       rearY = rearY + 1;
@@ -162,20 +118,13 @@ void deque::push_back(int n) {
       temp = new int*[columns];
       delete[] temp;
       blockmap[columns-1] = new int[bsize]();
-      //for(int i = 0; i < bsize; i++)
-           //{
-           //  blockmap[0][i] = 0;
-           //}
       blockmap[columns-1][0] = n;
       rearY = rearY + 1;
       rearX = 0;
     }
   size++;
 }
-void deque::setbsize(int n)
-{
-  bsize = n;
-}
+
 void deque::pop_front()
 {
   if(frontX != (bsize - 1))
@@ -244,10 +193,14 @@ void deque::print()
 	{
 	  cout << "|" << setw(5) << " ";
 	}
-      else
+      else if(i >= frontX && i < size)
 	{
 	  cout << "|" << setw(4) << blockmap[0][i] << " ";
 	  n++;
+	}
+      else if(i >= size)
+	{
+	  cout << "|" << setw(5) << " ";
 	}
     }
   cout << "|" << endl;
@@ -269,71 +222,52 @@ void deque::print()
     }
   cout << ununderline << endl;
 }
-void deque::allocate() {
+
+void deque::allocate()
+{
   blockmap = new int*[columns];
   blockmap[0] = new int[bsize]();
 }
 
-void deque::Allocation(string fileName)
+void deque::push_from_file(string fileName)
 {
-  ifstream inputFile;
-  int **temp;
-  int temp2;
-  inputFile.open(fileName);
-  blockmap = new int*[columns];
-  temp2 = inputFile.peek();
-  for(int i = 0; i < columns; i++)
-    {
-      blockmap[i] = new int[bsize];
-      for(int v = 0; v < bsize; v++)
-	{
-	  if(temp2 != -1)
-	    {
-	      inputFile >> blockmap[i][v];
-	      inputFile.get();
-	      temp2 = inputFile.peek();
-	      size++;
-	    }
-	  else
-	    {
-	      blockmap[i][v] = 0;
-	    } 
-	}
-      if(inputFile)
-	{
-	  columns++;
-	  temp = new int*[columns];
-	  for(int f = 0; f < (columns - 1); f++)
-	    {
-	      temp[f] = blockmap[f];
-	    }
-	  blockmap = temp;
-	}
-      if(temp2 == -1)
-	{
-	  columns--;
-	}
-    }
-  temp = new int*[columns];
-  delete[] temp;
-  inputFile.close();
-}
-
-
-void deque::push_from_file(string fileName) {
   ifstream inputFile;
   int value;
   inputFile.open(fileName);
 
   inputFile >> value;
   
-  while (inputFile) {
-    push_back(value);
-    push_front(value);
-    
-    inputFile >> value;
-  }
+  while (inputFile)
+    {
+      push_back(value);
+      push_front(value);
+      
+      inputFile >> value;
+    }
 
   inputFile.close();
 }
+
+
+int deque::operator[](unsigned int index)
+{
+  int X;
+  int Y = 0;
+  int temp;
+  temp = (index + 1) - bsize;
+  while(temp > 0)
+    {
+      if(Y == 0)
+	{
+	  Y++;
+	}
+      temp = temp - bsize;
+      if(temp > 0)
+	{
+	  Y++;
+	}
+    }
+ 
+}
+
 

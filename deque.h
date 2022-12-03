@@ -20,8 +20,8 @@ class deque {
   void pop_back();
   void print();
   void allocate();
-  void push_from_file();
-  //  &int operator[](unsigned int index);
+  void push_from_file(std::string fileName);
+  int operator[](unsigned int index);
 
  private:
   int **blockmap;
