@@ -1,3 +1,12 @@
+/**
+ * @file deque.cpp
+ * @author Ethan Buchanan
+ * @date 2022-12-02
+ * @brief DEque implementation
+ * 
+ * DEque Class implementation push/pop front/back and accesors for front/back
+ */
+
 #include "deque.h"
 #include <iomanip>
 #define underline "\033[4m"
@@ -6,8 +15,9 @@ using namespace std;
 
 deque::deque()
 {
+  //initilizes a empty deque
   blockmap = NULL;
-  bsize = 11;
+  bsize = 17;
   columns = 1;
   size = 0;
   rearX = 0;
@@ -30,6 +40,7 @@ deque::deque(int n)
 
 deque::~deque()
 {
+  //If empty nothing to delete
   if(empty())
     {
       return;
@@ -73,6 +84,7 @@ int deque::Size()
 
 void deque::push_front(int n)
 {
+  //If empty create allocate a array block and push to the frontmost which is (0,0)
   if (empty())
     {
       allocate();
@@ -83,6 +95,7 @@ void deque::push_front(int n)
       blockmap[frontY][frontX - 1] = n;
       frontX = frontX - 1;
     }
+  //if array is full, create new array block and put n at the end/front
   else
     {
       int **temp;
@@ -105,16 +118,19 @@ size++;
 
 void deque::push_back(int n)
 {
+  //If empty allocate new array block and put n at (0,0)
   if (empty())
     {
       allocate();
       blockmap[0][0] = n;
     }
+  //If size is less than capacity(bsize*columns) put at back of array
   else if(size < (columns * bsize))
     {
       blockmap[rearY][rearX + 1] = n;
       rearX++;
     }
+  //If size is more than capacity create new array block and put at the back/front
   else
     {
       int **temp;
@@ -151,6 +167,11 @@ void deque::pop_front()
 	}
       else
 	{
+	  if(frontX == 0 && columns == 1)
+	    {
+	      blockmap = NULL;
+	      return;
+	    }
 	  int **temp;
 	  columns--;
 	  temp = new int*[columns];
@@ -186,6 +207,11 @@ void deque::pop_back()
 	}
       else
 	{
+	  if(frontX == 0 && columns == 1)
+	    {
+	      blockmap = NULL;
+	      return;
+	    }
 	  int **temp;
 	  columns--;
 	  temp = new int*[columns];
@@ -206,6 +232,11 @@ void deque::pop_back()
 
 void deque::print()
 {
+  if (empty())
+    {
+      cout << "Deque is empty. Nothing to print!" << endl;
+      return;
+    }
   int max = 0;
   for(int i = 0; i < columns - 1; i++)
     {
