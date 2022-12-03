@@ -12,15 +12,15 @@ ________________________________________________________________________________
 Running the Program:
 To run the program simply run the makefile to create an executable then run the executable ./movielibrary, Main already has many test cases which show the
 functionality of the program. You can also read from a file and push it contents to a deque. The file should be formatted as such:
--1 /n
--2 /n
--3 /n
--4 /n
--5 /n
--. /n
--. /n
--. /n
--n
+- 1
+- 2
+- 3
+- 4 
+- 5
+- .
+- . 
+- .
+- n
 
 ____________________________________________________________________________________________________________________________________________________________
 
