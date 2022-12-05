@@ -1,3 +1,12 @@
+/**
+ * @file main.cpp
+ * @author Ethan Buchanan and Hunter Johnson
+ * @date 2022-12-05
+ * @brief Main
+ * 
+ * Tests the Deque
+ */
+
 #include "deque.h"
 #include <unistd.h>
 
